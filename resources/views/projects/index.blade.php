@@ -11,9 +11,9 @@
 			{{ $project->title }}
 		</a>
 		: <a href="/projects/{{$project->id}}/edit">Edit project</a>
-	</li>
+	</li>  
 	@endforeach
-
+	
 	<a href="/projects/create">create project</a>
 </body>
-</html>
+</html>    
