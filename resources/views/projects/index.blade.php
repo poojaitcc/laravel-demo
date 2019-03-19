@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<h1>projects</h1>
+@extends('layouts.app')
+@section('content')
+<div class="pull-right">
+	<a href="/projects/create">New Project</a>
+</div>
+<h1>Projects</h1>
+<ul class="list-group">
 	@foreach ($projects as $project)
-	<li>
-		<a href="/projects/{{$project->id}}">
-			{{ $project->title }}
-		</a>
-		: <a href="/projects/{{$project->id}}/edit">Edit project</a>
-	</li>  
+	<a href="/projects/{{$project->id}}">
+		<li class="list-group-item">
+			<b>{{ $project->title }}</b>
+			| <a href="/projects/{{$project->id}}/edit">Edit</a>
+			| <a href="{{ route('project.delete', $project->id) }}">Delete</a>
+		</li>
+	</a>
 	@endforeach
-	
-	<a href="/projects/create">create project</a>
-</body>
-</html>    
+</ul>
+
+@endsection
