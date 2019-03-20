@@ -10,9 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// use Illuminate\Filesystem\Filesystem;
+
+// app()->singleton('example',function(){
+//     return new \App\Example;
+// });
 
 Route::get('/', function () {
-	return view('welcome');
+	// dd(app(Filesystem::class));
+    // dd(app('example'),app('example'));
+    return view('welcome');
 });
 
 Auth::routes();
@@ -25,12 +32,13 @@ Route::get('/projects/create', 'ProjectsController@create');
 Route::get('/projects/{project}', 'ProjectsController@show');
 Route::get('/projects/{project}/edit', 'ProjectsController@edit');
 Route::patch('/projects/{project}', 'ProjectsController@update');
+
 Route::get('/projects/{project}/delete', ['as' => 'project.delete', 'uses' => 'ProjectsController@destroy']);
 
 Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
-Route::patch('/tasks/{task}', 'ProjectTasksController@update');
+// Route::patch('/tasks/{task}', 'ProjectTasksController@update');
 
 Route::post('/completed-tasks/{task}', 'CompletedTasksController@store');
-Route::patch('/completed-tasks/{task}', 'CompletedTasksController@destroy');
+Route::delete('/completed-tasks/{task}', 'CompletedTasksController@destroy');
 
 // Route::resource('projects', 'ProjectsController');

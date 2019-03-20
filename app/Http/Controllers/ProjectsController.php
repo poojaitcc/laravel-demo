@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Filesystem\Filesystem;
 
 class ProjectsController extends Controller
 {
@@ -12,6 +13,8 @@ class ProjectsController extends Controller
 	}
 
 	public function show(Project $project){
+	// public function show(Filesystem $file){
+	// 	dd($file);
 		// $project = Project::find($id);
 		return view('projects.show')->with('project',$project);
 	}
