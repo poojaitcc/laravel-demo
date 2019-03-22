@@ -17,14 +17,14 @@
 // });
 
 Route::get('/', function () {
-	// dd(app(Filesystem::class));
-    // dd(app('example'),app('example'));
+	// dd(app('foo'));
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home')->middleware('auth');
+// ->middleware('auth');
 
 Route::get('/projects', 'ProjectsController@index');
 Route::post('/projects', 'ProjectsController@store');

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      *
@@ -16,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        // $this->app->singleton('foo',function(){
+        //     return 'bar';
+        // });
     }
 
     /**
@@ -28,4 +32,5 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         //
     }
+
 }

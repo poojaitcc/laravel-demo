@@ -26,7 +26,9 @@ class HomeController extends Controller
     public function index()
     {
 
-        $projects = Project::all();
+        // $projects = Project::all();
+        $projects = Project::where('user_id',auth()->id())->get();
+        // dd($projects);
         return view('projects.index',compact('projects'));
     }
 }
