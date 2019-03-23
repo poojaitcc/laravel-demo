@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Datatables;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Filesystem\Filesystem;
@@ -22,10 +23,13 @@ class ProjectsController extends Controller
 	 	// auth()->user();
 	 	// auth()->check();
 	 	// auth()->guest()
+	 	// $projects = Project::where('user_id',auth()->id())->get();
+	 	// Datatables::of(Project::where('user_id',auth()->id())->get())->make(true);
 	 	$projects = Project::where('user_id',auth()->id())->get();
+	 	return view('projects.index',compact('projects'));
 	 	// dd($projects);
 	 	// $projects = Project::all();
-	 	return view('projects.index',compact('projects'));
+	 	// return view('projects.index',compact('projects'));
 	 }
 
 	 public function show(Project $project){
@@ -43,6 +47,10 @@ class ProjectsController extends Controller
 	 	// }
 	 	return view('projects.show')->with('project',$project);
 	 }
+
+	 // public function shownew() {
+	 // 	return Datatables::of(Project::where('user_id',auth()->id())->get())->make(true);
+	 // }
 
 	 public function create(){
 	 	return view('projects.create');
