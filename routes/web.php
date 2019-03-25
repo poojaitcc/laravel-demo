@@ -26,16 +26,23 @@ Auth::routes();
 Route::get('home', 'HomeController@index')->name('home')->middleware('auth');
 // ->middleware('auth');
 
-Route::get('/projects', 'ProjectsController@index');
-Route::post('/projects', 'ProjectsController@store');
-Route::get('/projects/create', 'ProjectsController@create');
-Route::get('/projects/{project}', 'ProjectsController@show');
-Route::get('/projects/{project}/edit', 'ProjectsController@edit');
-Route::patch('/projects/{project}', 'ProjectsController@update');
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+    // Route::resource('products','ProductController');
+    Route::get('/projects', 'ProjectsController@index');
+    Route::post('search', 'ProjectsController@search');
+    Route::post('/projects',['as' => 'project.store', 'uses' => 'ProjectsController@store']);
+    Route::get('/projects/create', 'ProjectsController@create');
+    Route::get('/projects/{project}', 'ProjectsController@show');
+    Route::get('/projects/{project}/edit', 'ProjectsController@edit');
+    Route::patch('/projects/{project}', 'ProjectsController@update');
 
-Route::match(['GET','POST'], 'show', 'ProjectsController@shownew');
+    Route::match(['GET','POST'], 'show', 'ProjectsController@shownew');
 
-Route::get('/projects/{project}/delete', ['as' => 'project.delete', 'uses' => 'ProjectsController@destroy']);
+    Route::get('/projects/{project}/delete', ['as' => 'project.delete', 'uses' => 'ProjectsController@destroy']);
+
+});
 
 Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
 // Route::patch('/tasks/{task}', 'ProjectTasksController@update');
@@ -44,3 +51,11 @@ Route::post('/completed-tasks/{task}', 'CompletedTasksController@store');
 Route::delete('/completed-tasks/{task}', 'CompletedTasksController@destroy');
 
 // Route::resource('projects', 'ProjectsController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

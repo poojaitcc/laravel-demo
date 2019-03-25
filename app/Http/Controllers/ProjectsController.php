@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Datatables;
 use App\Project;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Filesystem\Filesystem;
 
 class ProjectsController extends Controller
 {
@@ -16,16 +17,36 @@ class ProjectsController extends Controller
 	 public function __construct()
 	 {
 	 	$this->middleware('auth');
+
+	 	$this->middleware('permission:product-list', ['only' => ['show']]);
+	 	$this->middleware('permission:product-create', ['only' => ['create','store']]);
+	 	$this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+	 	$this->middleware('permission:product-delete', ['only' => ['destroy']]);
+	 }
+
+	 public function search(Request $request){
+	 	// $projects = Project::where('user_id',auth()->id())->get();
+
+	 	$projects =	Project::whereRaw('concat(title," ",description) like ?', "%{$request->search}%")->get();
+
+
+	 	// $projects = project::where('user_id', auth()->id())->where(function($query) use ($search) {
+	 	// 	$query->where('name', 'LIKE', '%'.$search.'%')
+	 	// 	->orWhere('description', 'LIKE', '%'.$search.'%');
+	 	// });
+
+	 	return view('projects.index',compact('projects'));
 	 }
 
 	 public function index(){
 	 	// auth()->id();
 	 	// auth()->user();
 	 	// auth()->check();
-	 	// auth()->guest()
+	 	// auth()->guest();
 	 	// $projects = Project::where('user_id',auth()->id())->get();
 	 	// Datatables::of(Project::where('user_id',auth()->id())->get())->make(true);
 	 	$projects = Project::where('user_id',auth()->id())->get();
+	 	// $projects = Project::all();
 	 	return view('projects.index',compact('projects'));
 	 	// dd($projects);
 	 	// $projects = Project::all();
@@ -80,7 +101,7 @@ class ProjectsController extends Controller
 	 	$project->description = request('description');
 	 	$project->user_id = auth()->id();
 	 	$project->save();
-	 	return redirect('/projects');
+	 	return redirect('/projects')->with('success','Product created successfully.');
 	 }
 
 	 public function edit(Project $project){
@@ -96,7 +117,7 @@ class ProjectsController extends Controller
 	 	$project->description = request('description');
 	 	$project->user_id = auth()->id();
 	 	$project->save();
-	 	return redirect('/projects');
+	 	return redirect('/projects')->with('success','Product updated successfully');
 	 }
 
 	// public function destroy(Project $project){
@@ -108,7 +129,7 @@ class ProjectsController extends Controller
 	 {
 	 	// $this->authorize('update',$project);
 	 	$project->delete();
-	 	return redirect('/projects');
+	 	return redirect('/projects')->with('success','Product deleted successfully');
 	 }
 
 	}
